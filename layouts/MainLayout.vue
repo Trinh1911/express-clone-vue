@@ -158,11 +158,15 @@
       </div>
     </div>
   </div>
-  <Loading v-if="userStore.isLoading"/>
+  <Loading v-if="userStore.isLoading" />
   <div class="lg:pt-[150px] md:pt-[130px] pt-[80px]"></div>
+<!-- dung de hien thi children o giua -->
+  <slot></slot>
   <Footer v-if="!userStore.isLoading"></Footer>
 </template>
 <script setup>
+import { useUserStore } from "~/stores/user";
+const userStore = useUserStore();
 let isAccountMenu = ref(false);
 let isSearching = ref(false);
 let searchItem = ref("");
