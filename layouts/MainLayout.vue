@@ -110,7 +110,10 @@
               </button>
             </div>
             <!-- an -->
-            <div v-if="false" class="absolute bg-white max-w-[700px] h-auto w-full">
+            <div
+              v-if="false"
+              class="absolute bg-white max-w-[700px] h-auto w-full"
+            >
               <div class="p-1">
                 <NuxtLink
                   :to="`/item/1`"
@@ -161,7 +164,7 @@
   </div>
   <Loading v-if="userStore.isLoading" />
   <div class="lg:pt-[150px] md:pt-[130px] pt-[80px]"></div>
-<!-- dung de hien thi children o giua -->
+  <!-- dung de hien thi children o giua -->
   <slot></slot>
   <Footer v-if="!userStore.isLoading"></Footer>
 </template>
