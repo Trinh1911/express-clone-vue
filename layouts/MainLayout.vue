@@ -109,7 +109,8 @@
                 <Icon name="ph:magnifying-glass" size="20" color="#ffffff" />
               </button>
             </div>
-            <div class="absolute bg-white max-w-[700px] h-auto w-full">
+            <!-- an -->
+            <div v-if="false" class="absolute bg-white max-w-[700px] h-auto w-full">
               <div class="p-1">
                 <NuxtLink
                   :to="`/item/1`"
