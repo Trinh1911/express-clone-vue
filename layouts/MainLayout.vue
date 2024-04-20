@@ -176,4 +176,3 @@ let isSearching = ref(false);
 let searchItem = ref("");
 let isCartHover = ref(false);
 </script>
-<style></style>
