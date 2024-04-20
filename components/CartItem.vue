@@ -14,7 +14,7 @@
             isSelected ? 'bg-[#FD374F]' : '',
           ]"
         >
-          <div class="h-[8px] w-[8px] rounded-full bg-white" />
+          <div class="h-[8px] w-[8px] rounded-full bg-white"></div>
         </div>
       </div>
     </div>
@@ -63,10 +63,13 @@
 <script setup>
 import { useUserStore } from "~/stores/user";
 const userStore = useUserStore();
-
+// defineProps dùng để định nghĩa các props đầu vào của component, gồm product và selectedArray
 const props = defineProps(["product", "selectedArray"]);
+// dùng để chuyển hai đối tượng thành reactive references
+// reactive references cho phép truy cập đối tượng thông qua thuộc tính .value
+// và tự động render lại khi dữ liệu thay đổi
 const { product, selectedArray } = toRefs(props);
-
+// định nghĩa sự kiện emit ra ngoài khi có sự kiện selectedRadio xảy ra
 const emit = defineEmits(["selectedRadio"]);
 
 let isHover = ref(false);
@@ -83,6 +86,7 @@ const removeFromCart = () => {
 watch(
   () => isSelected.value,
   (val) => {
+    // khi có sự kiện selectedRadio thì id và val của product sẽ được truyền thông qua e
     emit("selectedRadio", { id: product.value.id, val: val });
   }
 );
