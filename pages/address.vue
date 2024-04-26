@@ -60,7 +60,8 @@
 import MainLayout from "~/layouts/MainLayout.vue";
 import { useUserStore } from "~/stores/user";
 const userStore = useUserStore();
-
+// lấy thông tin nguowid dùng từ Supabase
+const user = useSupabaseUser();
 let contactName = ref(null);
 let address = ref(null);
 let zipCode = ref(null);
@@ -73,7 +74,21 @@ let isWorking = ref(false);
 let error = ref(null);
 // ở đây ta có thể sử dụng được watch() thay vì watchEffect
 // tuy nhiên, watchEffect sẽ tự cập nhật dữ liệu khi trang web bị refresh
-watchEffect(() => {
+watchEffect(async () => {
+  currentAddress.value = await useFetch(
+    `/api/prisma/get-address-by-user/${user.value.id}`
+  );
+
+  if (currentAddress.value.data) {
+    contactName.value = currentAddress.value.data.name;
+    address.value = currentAddress.value.data.address;
+    zipCode.value = currentAddress.value.data.zipcode;
+    city.value = currentAddress.value.data.city;
+    country.value = currentAddress.value.data.country;
+
+    isUpdate.value = true;
+  }
+
   userStore.isLoading = false;
 });
 const submit = async () => {
@@ -105,5 +120,45 @@ const submit = async () => {
       message: "A country is required",
     };
   }
+  if (error.value) {
+    isWorking.value = false;
+    return;
+  }
+  if (isUpdate.value) {
+    await useFetch(
+      `/api/prisma/update-address/${currentAddress.value.data.id}`,
+      {
+        method: "PATCH",
+        body: {
+          userId: user.value.id,
+          name: contactName.value,
+          address: address.value,
+          zipCode: zipCode.value,
+          city: city.value,
+          country: country.value,
+        },
+      }
+    );
+
+    isWorking.value = false;
+
+    return navigateTo("/checkout");
+  }
+
+  await useFetch(`/api/prisma/add-address/`, {
+    method: "POST",
+    body: {
+      userId: user.value.id,
+      name: contactName.value,
+      address: address.value,
+      zipCode: zipCode.value,
+      city: city.value,
+      country: country.value,
+    },
+  });
+
+  isWorking.value = false;
+
+  return navigateTo("/checkout");
 };
 </script>

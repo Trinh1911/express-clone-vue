@@ -52,7 +52,7 @@
               >
                 <div>Wellcome to AliExPress</div>
                 <NuxtLink
-                  to="/auth"
+                  to="/login"
                   class="bg-[#FF4646] text-center w-full text-[16px] rounded-sm text-white font-semibold p-2"
                 >
                   Login/Register
