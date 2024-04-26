@@ -1,9 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-export default defineEventHandler(async (event)=> {
-    const body = await readBody(event);
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+export default defineEventHandler(async (event) => {
+    const body = await readBody(event)
+    
     const res = await prisma.addresses.update({
-        where: {id: Number(event.context.params.id)},
+        where: { id: Number(event.context.params.id) },
         data: {
             name: body.name,
             address: body.address,
@@ -12,5 +14,6 @@ export default defineEventHandler(async (event)=> {
             country: body.country,
         }
     })
+
     return res
 })

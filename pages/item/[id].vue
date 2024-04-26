@@ -8,10 +8,6 @@
             class="rounded-lg object-fit"
             :src="currentImage"
           />
-          <img
-            class="rounded-lg object-fit"
-            src="./../../sever/api/prisma/cart-empty.png"
-          />
           <div
             v-if="images[0] !== ''"
             class="flex items-center justify-center mt-2"
@@ -58,7 +54,7 @@
             >
           </div>
 
-          <div class="border-b"></div>
+          <div class="border-b" />
 
           <div class="flex items-center justify-start gap-2 my-2">
             <div class="text-xl font-bold">$ {{ priceComputed }}</div>
@@ -74,7 +70,7 @@
 
           <p class="text-[#009A66] text-xs font-semibold pt-1">Free Shipping</p>
 
-          <div class="py-2"></div>
+          <div class="py-2" />
 
           <button
             @click="addToCart()"
@@ -89,6 +85,7 @@
     </div>
   </MainLayout>
 </template>
+
 <script setup>
 import MainLayout from "~/layouts/MainLayout.vue";
 import { useUserStore } from "~/stores/user";
@@ -101,7 +98,7 @@ let currentImage = ref(null);
 
 onBeforeMount(async () => {
   product.value = await useFetch(
-    `./../../sever/api/prisma/get-product-by-id/${route.params.id}`
+    `/api/prisma/get-product-by-id/${route.params.id}`
   );
 });
 
