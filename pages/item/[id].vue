@@ -8,6 +8,10 @@
             class="rounded-lg object-fit"
             :src="currentImage"
           />
+          <img
+            class="rounded-lg object-fit"
+            src="./../../sever/api/prisma/cart-empty.png"
+          />
           <div
             v-if="images[0] !== ''"
             class="flex items-center justify-center mt-2"
@@ -86,32 +90,46 @@
   </MainLayout>
 </template>
 <script setup>
-import MainLayout from '~/layouts/MainLayout.vue';
-import { useUserStore } from '~/stores/user';
-const userStore = useUserStore()
-const route = useRoute()
+import MainLayout from "~/layouts/MainLayout.vue";
+import { useUserStore } from "~/stores/user";
+const userStore = useUserStore();
+
+const route = useRoute();
+
 let product = ref(null);
 let currentImage = ref(null);
-const priceComputed = computed(()=> {
-    return '26.40'
-})
-const isInCart = computed(()=> {
-    let res = false
-    userStore.cart.forEach((prod) => {
-        if(route.params.id == prod.id) {
-            res = true
-        }
-    })
-    return res
-})
-// tương đương useEffect trong react
-// onMounted dùng để cập nhật dữ liệu khi component render
-onMounted(() => {
-  watchEffect(() => {
-    currentImage.value = "https://picsum.photos/id/77/800/800";
-    images.value[0] = "https://picsum.photos/id/77/800/800";
-  });
+
+onBeforeMount(async () => {
+  product.value = await useFetch(
+    `./../../sever/api/prisma/get-product-by-id/${route.params.id}`
+  );
 });
+
+watchEffect(() => {
+  if (product.value && product.value.data) {
+    currentImage.value = product.value.data.url;
+    images.value[0] = product.value.data.url;
+    userStore.isLoading = false;
+  }
+});
+
+const isInCart = computed(() => {
+  let res = false;
+  userStore.cart.forEach((prod) => {
+    if (route.params.id == prod.id) {
+      res = true;
+    }
+  });
+  return res;
+});
+
+const priceComputed = computed(() => {
+  if (product.value && product.value.data) {
+    return product.value.data.price / 100;
+  }
+  return "0.00";
+});
+
 const images = ref([
   "",
   "https://picsum.photos/id/212/800/800",
@@ -120,8 +138,8 @@ const images = ref([
   "https://picsum.photos/id/99/800/800",
   "https://picsum.photos/id/144/800/800",
 ]);
-// add to cart
+
 const addToCart = () => {
-    alert("Add to cart")
-}
+  userStore.cart.push(product.value.data);
+};
 </script>

@@ -85,6 +85,7 @@
       >
         <NuxtLink to="/" class="min-w-[170px]">
           <img src="./../public/images/AliExpress-logo.png" width="170" />
+          <!-- <img src="./../sever/api/prisma/cart-empty.png" width="170" /> -->
         </NuxtLink>
         <div class="max-w-[700px] w-full md:block hidden">
           <div class="relative">
