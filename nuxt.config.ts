@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
   pages: true,
   modules: [
     'nuxt-icon',
@@ -21,5 +20,12 @@ export default defineNuxtConfig({
         { src: 'https://js.stripe.com/v3/', defer: true }
       ],
     }
-  }
+  },
+  supabase: {
+    redirectOptions: {
+      login: "/auth",
+      callback: "/",
+      exclude: ["/"],
+    },
+  },
 })
