@@ -61,7 +61,7 @@
                   </div>
               </div>
 
-              <div class="md:hidden block my-4"/>
+              <div class="md:hidden block my-4"></div>
               <div class="md:w-[35%]">
                   <div id="PlaceOrder" class="bg-white rounded-lg p-4">
 
@@ -72,7 +72,7 @@
                           <div class="">Free</div>
                       </div>
 
-                      <div class="border-t" />
+                      <div class="border-t" ></div>
 
                       <div class="flex items-center justify-between my-4">
                           <div class="font-semibold">Total</div>
@@ -85,13 +85,13 @@
                           <div 
                               class="border border-gray-500 p-2 rounded-sm" 
                               id="card-element" 
-                          />
+                          ></div>
 
                           <p 
                               id="card-error" 
                               role="alert" 
                               class="text-red-700 text-center font-semibold" 
-                          />
+                          ></p>
 
                           <button 
                               :disabled="isProcessing"
