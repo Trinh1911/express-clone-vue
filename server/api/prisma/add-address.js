@@ -14,6 +14,5 @@ export default defineEventHandler(async (event) => {
             country: body.country,
         }
     })
-
     return res
 })

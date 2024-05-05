@@ -43,6 +43,7 @@
             inputType="text"
             :error="error && error.type == 'country' ? error.message : ''"
           />
+
           <button
             :disabled="isWorking"
             type="submit"
@@ -56,12 +57,13 @@
     </div>
   </MainLayout>
 </template>
+
 <script setup>
 import MainLayout from "~/layouts/MainLayout.vue";
 import { useUserStore } from "~/stores/user";
 const userStore = useUserStore();
-// lấy thông tin nguowid dùng từ Supabase
 const user = useSupabaseUser();
+
 let contactName = ref(null);
 let address = ref(null);
 let zipCode = ref(null);
@@ -72,8 +74,7 @@ let currentAddress = ref(null);
 let isUpdate = ref(false);
 let isWorking = ref(false);
 let error = ref(null);
-// ở đây ta có thể sử dụng được watch() thay vì watchEffect
-// tuy nhiên, watchEffect sẽ tự cập nhật dữ liệu khi trang web bị refresh
+
 watchEffect(async () => {
   currentAddress.value = await useFetch(
     `/api/prisma/get-address-by-user/${user.value.id}`
@@ -91,9 +92,11 @@ watchEffect(async () => {
 
   userStore.isLoading = false;
 });
+
 const submit = async () => {
   isWorking.value = true;
   error.value = null;
+
   if (!contactName.value) {
     error.value = {
       type: "contactName",
@@ -120,10 +123,12 @@ const submit = async () => {
       message: "A country is required",
     };
   }
+
   if (error.value) {
     isWorking.value = false;
     return;
   }
+
   if (isUpdate.value) {
     await useFetch(
       `/api/prisma/update-address/${currentAddress.value.data.id}`,
